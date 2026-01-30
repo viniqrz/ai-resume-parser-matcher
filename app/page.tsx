@@ -6,7 +6,7 @@ import { UploadDropzone } from '@/components/upload-dropzone';
 import { JobTextarea } from '@/components/job-textarea';
 import { LoadingSpinner } from '@/components/loading-spinner';
 import { MatchResults } from '@/components/match-results';
-import { MatchResult } from '@/lib/workers-ai';
+import { MatchResult } from '@/lib/ai-service';
 
 export default function Home() {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
@@ -15,7 +15,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<MatchResult | null>(null);
 
-  const canSubmit = resumeFile && jobDescription.length >= 50 && !isLoading;
+  const canSubmit = !isLoading;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ export default function Home() {
 
     try {
       const formData = new FormData();
-      formData.append('resume', resumeFile);
+      if (resumeFile) formData.append('resume', resumeFile);
       formData.append('jobDescription', jobDescription);
 
       const response = await fetch('/api/match', {
@@ -87,7 +87,7 @@ export default function Home() {
             <div className="flex justify-center">
               <button
                 onClick={handleReset}
-                className="px-6 py-3 rounded-xl font-medium text-white bg-slate-700 hover:bg-slate-600 transition-colors"
+                className="px-6 py-3 rounded-xl font-medium text-white bg-slate-700 hover:bg-slate-600 transition-colors cursor-pointer"
               >
                 ← Try Another Resume
               </button>
@@ -139,7 +139,7 @@ export default function Home() {
                   relative px-8 py-4 rounded-xl font-semibold text-lg
                   transition-all duration-300 overflow-hidden
                   ${canSubmit 
-                    ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:shadow-lg hover:shadow-cyan-500/25 hover:scale-105' 
+                    ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white hover:shadow-lg hover:shadow-cyan-500/25 hover:scale-105 cursor-pointer' 
                     : 'bg-slate-700 text-slate-400 cursor-not-allowed'
                   }
                 `}

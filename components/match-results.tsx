@@ -1,6 +1,6 @@
 'use client';
 
-import { MatchResult } from '@/lib/workers-ai';
+import { MatchResult } from '@/lib/ai-service';
 
 interface MatchResultsProps {
   result: MatchResult;
