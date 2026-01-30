@@ -10,7 +10,7 @@ export async function analyzeMatchWithGoogle(
     throw new Error('Missing Google API Key. Please set GOOGLE_API_KEY environment variable.');
   }
 
-  const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+  const GOOGLE_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   const response = await fetch(GOOGLE_API_URL, {
     method: 'POST',
